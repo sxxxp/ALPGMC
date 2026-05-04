@@ -18,22 +18,22 @@ ALPG is a Minecraft RPG mod focused on progression, build crafting, and cooperat
 
 ## Features
 
-* **Classless System**
+* **Classless System**<br>
   No fixed classes. Your build defines your role.
 
-* **Skill Gem System**
+* **Skill Gem System**<br>
   Customize and combine skills freely.
 
-* **Party System**
+* **Party System**<br>
   Gain bonuses and synergy when playing with others.
 
-* **Combo Mechanics**
+* **Combo Mechanics**<br>
   Chain skills to increase damage output.
 
-* **Dungeons**
+* **Dungeons**<br>
   Multiple dungeon types with scaling rewards.
 
-* **Loot & Progression**
+* **Loot & Progression**<br>
   Farm items and optimize your build.
 
 ---
@@ -73,13 +73,31 @@ Currently in development. Features and balance are subject to change.
 
 ## Future Plans
 
-* Additional skill gems
+* Skill gems
 * Boss mechanics
-* Endgame dungeon content
+* Magic Find
+* Prestige system
 * Expanded build diversity
 
 ---
 
 ## License
 
-(To be added)
+Copyright (c) 2026 ALPG
+
+All Rights Reserved.
+
+This mod is provided for personal use only.
+
+### Permissions
+- You may use this mod in modpacks
+- You may distribute this mod as part of a modpack via CurseForge or similar platforms
+
+### Restrictions
+- You may not redistribute this mod's files outside of a modpack
+- You may not reupload this mod to other websites without permission
+- You may not modify, decompile, or create derivative works of this mod
+- You may not claim this mod as your own
+
+### Notes
+If you want to use this mod for other purposes, please contact the author.
