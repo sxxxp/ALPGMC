@@ -134,9 +134,6 @@ dependencies {
     implementation fg.deobf("curse.maven:placebo-283644:6274231") // 8.6.3
     implementation fg.deobf("curse.maven:apotheosis-313970:6461960") // 7.4.8
 
-    // 2. Project MMO (PMMO) - 숙련도 API 활용
-    implementation fg.deobf("curse.maven:project-mmo-353935:6507111")
-
     // 3. KubeJS (선행 Rhino, Architectury 포함) - 스크립트 연동
 //    implementation fg.deobf("curse.maven:kubejs-238086:8020595")
 //    implementation fg.deobf("curse.maven:kubejs-238086:8010958")

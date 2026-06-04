@@ -1,6 +1,9 @@
-package com.example.examplemod;
+package com.sxxxp.ALPGMC;
 
 import com.mojang.logging.LogUtils;
+import com.sxxxp.ALPGMC.core.data.MobXpManager;
+import com.sxxxp.ALPGMC.core.init.EntityInit;
+import com.sxxxp.ALPGMC.core.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -67,7 +70,9 @@ public class ExampleMod
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
+        modEventBus.addListener(this::setup);
+//        ItemInit.register(modEventBus);
+        EntityInit.register(modEventBus);
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
@@ -85,7 +90,12 @@ public class ExampleMod
 //        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
-
+    private void setup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            // ◀ 모드가 로드될 때 네트워크 채널을 활성화합니다.
+            PacketHandler.register();
+        });
+    }
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code

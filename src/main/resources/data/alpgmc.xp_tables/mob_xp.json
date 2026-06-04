@@ -1,0 +1,9 @@
+{
+  "minecraft:zombie": 15,
+  "alpgmc:custom_zombie": 40,
+  "minecraft:skeleton": 20,
+  "minecraft:spider": 18,
+  "minecraft:creeper": 25,
+  "minecraft:wither": 1000,
+  "minecraft:ender_dragon": 5000
+}
