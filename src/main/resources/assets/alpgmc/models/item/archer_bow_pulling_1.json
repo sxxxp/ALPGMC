@@ -1,0 +1,6 @@
+{
+  "parent": "alpgmc:item/archer_bow",
+  "textures": {
+    "layer0": "alpgmc:item/archer_bow_pulling_1"
+  }
+}

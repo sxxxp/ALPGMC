@@ -29,6 +29,30 @@ public class PacketHandler {
                 .consumerMainThread(XpToastPacket::handle)
                 .add();
 
+        INSTANCE.messageBuilder(ClassSyncPacket.class, nextId())
+                .encoder(ClassSyncPacket::encode)
+                .decoder(ClassSyncPacket::decode)
+                .consumerMainThread(ClassSyncPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(SelectClassPacket.class, nextId())
+                .encoder(SelectClassPacket::encode)
+                .decoder(SelectClassPacket::decode)
+                .consumerMainThread(SelectClassPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(LevelSyncPacket.class, nextId())
+                .encoder(LevelSyncPacket::encode)
+                .decoder(LevelSyncPacket::decode)
+                .consumerMainThread(LevelSyncPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(StatActionPacket.class, nextId())
+                .encoder(StatActionPacket::encode)
+                .decoder(StatActionPacket::decode)
+                .consumerMainThread(StatActionPacket::handle)
+                .add();
+
         System.out.println("[ALPGMC] Successfully registered XpToastPacket to network channel.");
     }
 }

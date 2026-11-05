@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "W W",
+    "WLW",
+    "WWW"
+  ],
+  "key": {
+    "W": { "tag": "minecraft:wool" },
+    "L": { "item": "minecraft:lapis_lazuli" }
+  },
+  "result": { "item": "alpgmc:mage_robe_top" }
+}

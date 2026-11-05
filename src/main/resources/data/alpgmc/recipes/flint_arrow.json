@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "H",
+    "S",
+    "F"
+  ],
+  "key": {
+    "H": { "item": "minecraft:flint" },
+    "S": { "item": "minecraft:stick" },
+    "F": { "item": "minecraft:feather" }
+  },
+  "result": { "item": "alpgmc:flint_arrow", "count": 4 }
+}
