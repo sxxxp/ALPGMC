@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "H",
+    "S",
+    "F"
+  ],
+  "key": {
+    "H": { "tag": "minecraft:planks" },
+    "S": { "item": "minecraft:stick" },
+    "F": { "item": "minecraft:feather" }
+  },
+  "result": { "item": "alpgmc:wood_arrow", "count": 4 }
+}

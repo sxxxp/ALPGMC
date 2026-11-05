@@ -1,5 +1,6 @@
 package com.sxxxp.ALPGMC.core.init;
 
+import com.sxxxp.ALPGMC.common.entity.ClassArrowEntity;
 import com.sxxxp.ALPGMC.common.entity.CustomZombieEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +19,15 @@ public class EntityInit {
                     () -> EntityType.Builder.of(CustomZombieEntity::new, MobCategory.MONSTER)
                             .sized(0.6F, 1.95F)
                             .build("custom_zombie"));
+
+    // 궁수 전용 화살 (등급은 엔티티 데이터로 구분합니다)
+    public static final RegistryObject<EntityType<ClassArrowEntity>> CLASS_ARROW =
+            ENTITIES.register("class_arrow",
+                    () -> EntityType.Builder.<ClassArrowEntity>of(ClassArrowEntity::new, MobCategory.MISC)
+                            .sized(0.5F, 0.5F)
+                            .clientTrackingRange(4)
+                            .updateInterval(20)
+                            .build("class_arrow"));
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_anvil",
+  "textures": {
+    "particle": "alpgmc:block/enhancement_anvil",
+    "body": "alpgmc:block/enhancement_anvil",
+    "top": "alpgmc:block/enhancement_anvil_top"
+  }
+}

@@ -2,7 +2,11 @@ package com.sxxxp.ALPGMC;
 
 import com.mojang.logging.LogUtils;
 import com.sxxxp.ALPGMC.core.data.MobXpManager;
+import com.sxxxp.ALPGMC.common.playerclass.ClassConfig;
+import com.sxxxp.ALPGMC.core.init.BlockInit;
 import com.sxxxp.ALPGMC.core.init.EntityInit;
+import com.sxxxp.ALPGMC.core.init.ItemInit;
+import com.sxxxp.ALPGMC.core.init.MenuInit;
 import com.sxxxp.ALPGMC.core.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -37,26 +41,26 @@ import org.slf4j.Logger;
 public class ExampleMod
 {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "examplemod";
+    public static final String MODID = "alpgmc";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
+    // Create a Deferred Register to hold Blocks which will all be registered under the "alpgmc" namespace
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
+    // Create a Deferred Register to hold Items which will all be registered under the "alpgmc" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
+    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "alpgmc" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
+    // Creates a new Block with the id "alpgmc:example_block", combining the namespace and path
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
-    // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
+    // Creates a new BlockItem with the id "alpgmc:example_block", combining the namespace and path
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
-    // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
+    // Creates a new food item with the id "alpgmc:example_id", nutrition 1 and saturation 2
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
+    // Creates a creative tab with the id "alpgmc:example_tab" for the example item, that is placed after the combat tab
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
@@ -64,14 +68,16 @@ public class ExampleMod
                 output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 
-    public ExampleMod(FMLJavaModLoadingContext context)
+    public ExampleMod()
     {
-        IEventBus modEventBus = context.getModEventBus();
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::setup);
-//        ItemInit.register(modEventBus);
+        BlockInit.register(modEventBus);
+        ItemInit.register(modEventBus);
+        MenuInit.register(modEventBus);
         EntityInit.register(modEventBus);
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
@@ -89,6 +95,8 @@ public class ExampleMod
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
 //        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        // 직업 수치는 서버 설정으로 저장되어 접속한 클라이언트에 자동으로 전달됩니다.
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ClassConfig.SPEC);
     }
     private void setup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
@@ -114,6 +122,32 @@ public class ExampleMod
     {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
             event.accept(EXAMPLE_BLOCK_ITEM);
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(ItemInit.MAGE_STAFF);
+            event.accept(ItemInit.MAGE_ROBE_HOOD);
+            event.accept(ItemInit.MAGE_ROBE_TOP);
+            event.accept(ItemInit.MAGE_ROBE_BOTTOM);
+            event.accept(ItemInit.MAGE_ROBE_SHOES);
+            event.accept(ItemInit.ARCHER_BOW);
+            event.accept(ItemInit.WOOD_ARROW);
+            event.accept(ItemInit.FLINT_ARROW);
+            event.accept(ItemInit.IRON_ARROW);
+            event.accept(ItemInit.DIAMOND_ARROW);
+            event.accept(ItemInit.REVENANT_SWORD);
+            event.accept(ItemInit.REVENANT_HELMET);
+            event.accept(ItemInit.REVENANT_CHESTPLATE);
+            event.accept(ItemInit.REVENANT_LEGGINGS);
+            event.accept(ItemInit.REVENANT_BOOTS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ItemInit.REVENANT_ESSENCE);
+            event.accept(ItemInit.ENHANCEMENT_SCROLL);
+            event.accept(ItemInit.OPTION_DUST);
+        }
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+            event.accept(ItemInit.ENHANCEMENT_ANVIL);
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
+            event.accept(ItemInit.CUSTOM_ZOMBIE_SPAWN_EGG);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -132,8 +166,7 @@ public class ExampleMod
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            LOGGER.info("HELLO FROM CLIENT SETUP");            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
     }
 }

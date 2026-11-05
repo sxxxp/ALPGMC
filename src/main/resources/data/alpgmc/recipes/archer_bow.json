@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " IS",
+    "IBS",
+    " IS"
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "S": { "item": "minecraft:string" },
+    "B": { "item": "minecraft:bow" }
+  },
+  "result": { "item": "alpgmc:archer_bow" }
+}

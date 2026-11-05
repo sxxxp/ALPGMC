@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 // 기존 마인크래프트 좀비의 3D 모델(ZombieModel)을 재활용하는 가장 쉬운 방법입니다.
 public class CustomZombieRenderer extends MobRenderer<CustomZombieEntity, ZombieModel<CustomZombieEntity>> {
+    private static final double NAME_RANGE_SQR = 16.0D * 16.0D;
 
     // 리소스 폴더에 들어갈 몬스터 스킨(텍스처) 경로 지정
     private static final ResourceLocation TEXTURE =
@@ -22,4 +23,10 @@ public class CustomZombieRenderer extends MobRenderer<CustomZombieEntity, Zombie
     public ResourceLocation getTextureLocation(CustomZombieEntity entity) {
         return TEXTURE;
     }
+
+    // 레벨 이름표가 멀리서 벽 너머로 보이지 않도록 가까이 있을 때만 그립니다.
+    @Override
+    protected boolean shouldShowName(CustomZombieEntity entity) {
+        return super.shouldShowName(entity) && this.entityRenderDispatcher.distanceToSqr(entity) < NAME_RANGE_SQR;
     }
+}

@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:item/bow",
+  "textures": {
+    "layer0": "alpgmc:item/archer_bow"
+  },
+  "overrides": [
+    { "predicate": { "pulling": 1 }, "model": "alpgmc:item/archer_bow_pulling_0" },
+    { "predicate": { "pulling": 1, "pull": 0.65 }, "model": "alpgmc:item/archer_bow_pulling_1" },
+    { "predicate": { "pulling": 1, "pull": 0.9 }, "model": "alpgmc:item/archer_bow_pulling_2" }
+  ]
+}

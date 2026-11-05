@@ -1,0 +1,203 @@
+ALPG 테스트 명령어
+==================
+
+[다른 PC에서 받기]
+git clone <저장소 주소>     (이미 받았다면 생략)
+git fetch origin
+git checkout rpg-class-system
+git pull
+.\gradlew.bat runClient
+
+[시작 전]
+- 치트를 허용한 "새 월드"를 서바이벌로 만듭니다.
+  기존 월드에는 예전 config 값이 남아 있습니다.
+- 크리에이티브에서는 인벤토리에 골드가 보이지 않습니다.
+- 직업 선택 화면에서는 아무 직업이나 고르면 됩니다.
+- 레벨 초기화 명령은 없으니, 레벨을 다시 보려면 새 월드를 만드세요.
+- 크래시가 나면 run/logs/latest.log 를 보내주세요.
+
+
+1. 준비
+-------
+/class set @s tank
+/gold add @s 1000
+/give @s alpgmc:enhancement_anvil
+/give @s alpgmc:enhancement_scroll 32
+/give @s alpgmc:custom_zombie_spawn_egg
+
+확인: E를 눌러 왼손 칸 오른쪽에 골드 1000이 보입니다.
+
+
+2. 골드 획득
+------------
+/summon zombie ~ ~ ~3
+
+확인: 좀비를 잡으면 골드 +1, 생성 알로 소환한 정예 좀비를 잡으면 +3 이상입니다.
+
+
+3. 수리
+-------
+/give @s iron_sword{Damage:200}
+
+모루에 검을 넣고 수리를 누릅니다.
+확인: 탱커는 8골드가 듭니다. 주문서는 들지 않습니다.
+
+/class set @s warrior
+/give @s iron_sword{Damage:200}
+
+확인: 전사는 16골드가 듭니다.
+
+/class set @s tank
+
+
+4. 강화
+-------
+/class addxp @s 5950
+/give @s iron_sword
+
+확인 (15레벨):
+- 주문서 없이 장비만 넣으면 강화 버튼이 잠깁니다.
+- 주문서를 넣고 강화하면 주문서 1장과 골드가 줄고, 툴팁과 공격력이 오릅니다.
+- 오른쪽 칸에는 주문서만 들어갑니다.
+- 창을 닫으면 주문서가 인벤토리로 돌아옵니다.
+- 실패하면 장비가 파괴됩니다.
+
+/class addxp @s 10250
+
+확인 (25레벨): 성공률이 오르고, 실패해도 장비가 남습니다.
+
+
+5. 분해
+-------
+/class addxp @s 15250
+/give @s iron_sword{alpgmc_gear:{Options:[{Id:"alpgmc:test",Tier:1},{Id:"alpgmc:test",Tier:5}]}}
+
+확인 (35레벨): 이 검을 분해하면 옵션 가루 6개가 나옵니다.
+
+
+6. 한계 돌파
+------------
+/class addxp @s 20250
+/give @s iron_sword{alpgmc_gear:{Enhancement:5}}
+
+확인 (45레벨): +5 검을 +6 이상으로 강화할 수 있습니다.
+
+
+7. 수선 제거
+------------
+/give @s iron_sword{Enchantments:[{id:"minecraft:mending",lvl:1},{id:"minecraft:sharpness",lvl:1}]}
+/give @s iron_boots{Enchantments:[{id:"minecraft:mending",lvl:1}]}
+
+확인: 1초 안에 수선만 사라지고 날카로움은 남습니다.
+
+
+8. 사망
+-------
+/clear @s
+/give @s iron_sword{Damage:50}
+/give @s iron_chestplate{Damage:40}
+/give @s dirt 16
+/kill @s
+
+확인:
+- 부활하면 검과 갑옷이 그대로 있고, 내구도는 둘 다 140~180 남습니다.
+- 흙은 사망한 자리에 떨어집니다.
+- 골드 잔액은 그대로입니다.
+- 다시 죽은 뒤 부활 버튼을 누르지 말고 접속을 끊었다가 들어와 부활해도 장비가 돌아옵니다.
+
+
+9. 부서진 장비
+--------------
+/give @s iron_sword{Damage:249}
+
+확인: 몹을 한 번 때리면 검이 사라지지 않고, 소리와 안내 문구가 나옵니다.
+
+/give @s iron_pickaxe{Damage:250}
+/give @s bow{Damage:384}
+/give @s shield{Damage:336}
+/give @s iron_chestplate{Damage:240}
+
+확인:
+- 곡괭이는 블록을 캘 수 없습니다. 들고 있어도 문은 열립니다.
+- 활은 당겨지지 않고, 방패는 막기가 안 됩니다.
+- 갑옷은 입는 즉시 벗겨져 인벤토리로 돌아옵니다.
+- 모루에서 수리하면 다시 쓸 수 있습니다.
+
+
+10. 골드 보내기
+---------------
+/gold pay @s 10
+/gold pay <다른 플레이어> 999999
+/gold pay <다른 플레이어> 10
+
+확인: 위 두 줄은 거절되고, 마지막 줄은 양쪽 잔액이 바뀝니다.
+
+
+11. 마법사 제한
+---------------
+/class set @s mage
+
+확인: 강화 모루를 우클릭해도 열리지 않습니다.
+
+
+12. 아군 판정
+-------------
+길들인 늑대를 아군으로 씁니다. 다른 플레이어가 있으면 사람에게도 시험해 주세요.
+
+/class set @s archer
+/clear @s
+/give @s alpgmc:archer_bow
+/give @s alpgmc:wood_arrow 64
+/give @s bone 8
+/summon wolf ~ ~ ~3
+/summon zombie ~ ~ ~6
+/summon cow ~ ~ ~5
+
+뼈로 늑대를 길들이고 앉힙니다.
+
+화살 통과
+확인: 늑대 뒤의 좀비를 쏘면 화살이 늑대를 통과해 좀비에 맞습니다. 소는 맞습니다.
+
+해로운 포션
+/give @s splash_potion{Potion:"minecraft:poison"}
+확인: 늑대와 소 근처에 던지면 소만 독에 걸립니다. 내 발밑에 던져도 나는 안 걸립니다.
+
+이로운 포션
+/give @s splash_potion{Potion:"minecraft:regeneration"}
+확인: 나, 늑대, 소가 범위에 들어오게 던지면 나와 늑대만 재생에 걸립니다.
+
+잔류 포션
+/give @s lingering_potion{Potion:"minecraft:poison"}
+/give @s lingering_potion{Potion:"minecraft:regeneration"}
+확인: 독은 소에게만, 재생은 늑대에게만 걸립니다.
+
+치유 포션과 언데드
+/summon zombie ~ ~ ~4
+/give @s splash_potion{Potion:"minecraft:healing"}
+확인: 좀비가 피해를 받습니다. 다친 소는 회복되지 않고, 다친 늑대는 회복됩니다.
+
+휩쓸기와 직접 타격
+/class set @s warrior
+/give @s iron_sword
+/summon zombie ~ ~ ~2
+확인: 좀비를 칠 때 옆의 늑대는 다치지 않고, 옆의 다른 몹은 다칩니다.
+확인: 늑대를 직접 쳐도 피해가 없습니다.
+확인: 다른 플레이어끼리 때리거나 쏴도 피해가 없습니다. (PvP 꺼짐)
+
+
+13. 갈래 선택과 능력
+--------------------
+새 월드에서 전사로 시작합니다.
+
+/class addxp @s 5950
+
+확인: 15레벨이 되면 채팅 안내가 나옵니다.
+K -> 전투 갈래와 생산 트리에서 광전사를 두 번 눌러 고릅니다.
+확인: 체력이 낮을수록 데미지가 오릅니다.
+
+/xp add @s 50 levels
+확인: 다른 갈래로 바꾸면 경험치 50레벨이 빠집니다. 50레벨 미만이면 버튼이 잠깁니다.
+
+/class addxp @s 25500
+확인 (35레벨): 처치 시 체력이 회복되고, 화살 제작이 3배가 됩니다.
+확인: 재접속하고 죽었다 살아나도 갈래가 유지됩니다.
