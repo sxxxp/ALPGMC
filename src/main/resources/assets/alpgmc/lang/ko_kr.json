@@ -59,7 +59,7 @@
   "class.alpgmc.healer.bonus": "연금술 작업대로 포션 제작, 재생 오라, 자연 회복 2배, 강화 가능한 늑대 소환수 2마리",
   "class.alpgmc.tank": "탱커",
   "class.alpgmc.tank.penalty": "착용 갑옷 제작 불가, 이동속도와 탈것 속도 30% 감소",
-  "class.alpgmc.tank.bonus": "최대 체력 +20, 받는 피해 -30%, 넉백 면역, 강화 모루 수리 비용 절감, 도발 스킬",
+  "class.alpgmc.tank.bonus": "유일하게 방패 사용 가능, 최대 체력 +20, 받는 피해 -30%, 넉백 면역, 강화 모루 수리 비용 절감, 도발 스킬",
 
   "block.alpgmc.enhancement_anvil": "강화 모루",
   "item.alpgmc.option_dust": "옵션 가루",

@@ -59,7 +59,7 @@
   "class.alpgmc.healer.bonus": "Makes potions at the Alchemy Workbench, Regeneration aura, double natural healing, two upgradable summoned wolves.",
   "class.alpgmc.tank": "Tank",
   "class.alpgmc.tank.penalty": "Cannot craft wearable armor. Move and mount speed reduced by 30%.",
-  "class.alpgmc.tank.bonus": "Max health +20, damage taken -30%, knockback immunity, cheaper repairs at the Enhancement Anvil, Taunt skill.",
+  "class.alpgmc.tank.bonus": "The only class that can use shields. Max health +20, damage taken -30%, knockback immunity, cheaper repairs at the Enhancement Anvil, Taunt skill.",
 
   "block.alpgmc.enhancement_anvil": "Enhancement Anvil",
   "item.alpgmc.option_dust": "Option Dust",
