@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Block;
@@ -68,12 +69,16 @@ public class ClassRestrictionEvent {
         }
     }
 
-    // 궁수는 삼지창을 던질 수 없습니다. 클라이언트에서도 막아서 창을 드는 동작이 보이지 않게 합니다.
+    // 궁수는 삼지창을 던질 수 없고, 탱커가 아니면 방패로 막을 수 없습니다.
+    // 클라이언트에서도 막아서 창이나 방패를 드는 동작이 보이지 않게 합니다.
     @SubscribeEvent
     public static void onUseItemStart(LivingEntityUseItemEvent.Start event) {
-        if (event.getEntity() instanceof Player player
-                && PlayerClassData.get(player) == PlayerClass.ARCHER
-                && event.getItem().getItem() instanceof TridentItem) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        PlayerClass playerClass = PlayerClassData.get(player);
+        boolean forbidden = (playerClass == PlayerClass.ARCHER && event.getItem().getItem() instanceof TridentItem)
+                || (playerClass != PlayerClass.TANK && event.getItem().getItem() instanceof ShieldItem);
+        if (forbidden) {
             event.setCanceled(true);
             if (player instanceof ServerPlayer serverPlayer) {
                 deny(serverPlayer);
