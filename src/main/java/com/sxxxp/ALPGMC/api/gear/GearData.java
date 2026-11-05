@@ -12,6 +12,7 @@ import java.util.List;
 // 장비에 붙는 옵션, 감정 여부, 강화 수치를 아이템 NBT로 읽고 씁니다.
 public class GearData {
     public static final int MAX_OPTIONS = 3;
+    public static final int BASE_MAX_ENHANCEMENT = 5;
     public static final int MAX_ENHANCEMENT = 10;
 
     private static final String KEY = "alpgmc_gear";

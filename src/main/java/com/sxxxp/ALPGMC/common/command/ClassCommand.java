@@ -8,6 +8,7 @@ import com.sxxxp.ALPGMC.common.playerclass.ClassProgression;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerBranch;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerClass;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerClassData;
+import com.sxxxp.ALPGMC.common.playerclass.PlayerGold;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerLevelData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,6 +20,8 @@ public class ClassCommand {
 
     // 일반 플레이어는 직업을 바꿀 수 없으므로, 변경 명령어는 관리자용 /class set 하나만 둡니다.
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        registerGold(dispatcher);
+
         RequiredArgumentBuilder<CommandSourceStack, ?> target = Commands.argument("player", EntityArgument.player());
 
         for (PlayerClass playerClass : PlayerClass.values()) {
@@ -56,6 +59,47 @@ public class ClassCommand {
                 player.getDisplayName(),
                 Component.translatable("class.alpgmc." + playerClass.getId())
         ), true);
+        return 1;
+    }
+
+    // 골드는 아이템이 아니어서 건네줄 수 없으므로, 플레이어끼리 거래할 수 있도록 송금 명령어를 둡니다.
+    private static void registerGold(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("gold")
+                .then(Commands.literal("pay")
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(1))
+                                        .executes(context -> payGold(context.getSource(),
+                                                EntityArgument.getPlayer(context, "player"),
+                                                IntegerArgumentType.getInteger(context, "amount"))))))
+                .then(Commands.literal("add")
+                        .requires(source -> source.hasPermission(2))
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(1))
+                                        .executes(context -> addGold(context.getSource(),
+                                                EntityArgument.getPlayer(context, "player"),
+                                                IntegerArgumentType.getInteger(context, "amount")))))));
+    }
+
+    private static int payGold(CommandSourceStack source, ServerPlayer target, int amount) throws CommandSyntaxException {
+        ServerPlayer sender = source.getPlayerOrException();
+        if (sender == target) {
+            source.sendFailure(Component.translatable("command.alpgmc.gold.pay_self"));
+            return 0;
+        }
+        if (!PlayerGold.spend(sender, amount)) {
+            source.sendFailure(Component.translatable("command.alpgmc.gold.pay_no_gold", PlayerGold.get(sender)));
+            return 0;
+        }
+
+        PlayerGold.add(target, amount);
+        source.sendSuccess(() -> Component.translatable("command.alpgmc.gold.pay_sent", amount, target.getDisplayName()), false);
+        target.sendSystemMessage(Component.translatable("command.alpgmc.gold.pay_received", sender.getDisplayName(), amount));
+        return 1;
+    }
+
+    private static int addGold(CommandSourceStack source, ServerPlayer player, int amount) {
+        PlayerGold.add(player, amount);
+        source.sendSuccess(() -> Component.translatable("command.alpgmc.gold.add", amount, player.getDisplayName()), true);
         return 1;
     }
 

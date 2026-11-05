@@ -4,6 +4,8 @@ import com.sxxxp.ALPGMC.client.renderer.ClassArrowRenderer;
 import com.sxxxp.ALPGMC.client.renderer.CustomZombieRenderer;
 import com.sxxxp.ALPGMC.core.init.EntityInit;
 import com.sxxxp.ALPGMC.core.init.ItemInit;
+import com.sxxxp.ALPGMC.core.init.MenuInit;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,6 +33,7 @@ public class ClientEntityEvent {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            MenuScreens.register(MenuInit.ENHANCEMENT_ANVIL.get(), EnhancementAnvilScreen::new);
             ItemProperties.register(ItemInit.ARCHER_BOW.get(), new ResourceLocation("pull"), (stack, level, entity, seed) -> {
                 if (entity == null || entity.getUseItem() != stack) return 0.0F;
                 return (stack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F;

@@ -51,17 +51,24 @@ public class BranchAbilityEvent {
         }
     }
 
+    // 궁수가 아니면 0을 반환합니다.
+    public static double hunterDropChance(ServerPlayer player) {
+        if (!ClassProgression.hasProductionTier(player, PlayerClass.ARCHER, 0)) return 0.0D;
+
+        return ClassProgression.hasProductionTier(player, PlayerClass.ARCHER, 1)
+                ? ClassConfig.HUNTER_DROP_CHANCE_UPGRADED.get()
+                : ClassConfig.HUNTER_DROP_CHANCE.get();
+    }
+
     // 궁수 사냥꾼: 드랍 묶음마다 확률로 한 묶음을 더 떨어뜨립니다.
     @SubscribeEvent
     public static void onLivingDrops(LivingDropsEvent event) {
         if (!(event.getSource().getEntity() instanceof ServerPlayer killer)) return;
         // 플레이어나 길들인 동물이 지닌 물건까지 복사되지 않도록 야생 몹만 대상으로 합니다.
         if (!(event.getEntity() instanceof Mob) || event.getEntity() instanceof OwnableEntity) return;
-        if (!ClassProgression.hasProductionTier(killer, PlayerClass.ARCHER, 0)) return;
 
-        double chance = ClassProgression.hasProductionTier(killer, PlayerClass.ARCHER, 1)
-                ? ClassConfig.HUNTER_DROP_CHANCE_UPGRADED.get()
-                : ClassConfig.HUNTER_DROP_CHANCE.get();
+        double chance = hunterDropChance(killer);
+        if (chance <= 0.0D) return;
 
         for (ItemEntity drop : new ArrayList<>(event.getDrops())) {
             // 몹이 주워 든 장비가 복사되지 않도록 내구도가 있는 아이템은 제외합니다.

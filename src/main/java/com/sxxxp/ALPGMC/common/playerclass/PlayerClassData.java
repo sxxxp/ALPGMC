@@ -57,5 +57,6 @@ public class PlayerClassData {
         clone.getPersistentData().putBoolean(STARTER_KEY, original.getPersistentData().getBoolean(STARTER_KEY));
         PlayerLevelData.copy(original, clone);
         ClassProgression.copy(original, clone);
+        PlayerGold.copy(original, clone);
     }
 }

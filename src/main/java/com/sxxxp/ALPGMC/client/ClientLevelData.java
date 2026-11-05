@@ -10,14 +10,20 @@ public class ClientLevelData {
     private static int points = 0;
     private static int[] stats = new int[PlayerStat.values().length];
     private static PlayerBranch branch = null;
+    private static int gold = 0;
 
-    public static void set(int newLevel, int newXp, int newXpToNext, int newPoints, int[] newStats, String newBranch) {
+    public static void set(int newLevel, int newXp, int newXpToNext, int newPoints, int[] newStats, String newBranch, int newGold) {
         level = newLevel;
         xp = newXp;
         xpToNext = newXpToNext;
         points = newPoints;
         stats = newStats;
         branch = PlayerBranch.fromId(newBranch);
+        gold = newGold;
+    }
+
+    public static int getGold() {
+        return gold;
     }
 
     public static int getLevel() {

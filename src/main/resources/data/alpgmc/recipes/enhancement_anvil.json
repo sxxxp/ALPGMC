@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    " E ",
+    "III"
+  ],
+  "key": {
+    "B": { "item": "minecraft:iron_block" },
+    "E": { "item": "alpgmc:revenant_essence" },
+    "I": { "item": "minecraft:iron_ingot" }
+  },
+  "result": {
+    "item": "alpgmc:enhancement_anvil"
+  }
+}

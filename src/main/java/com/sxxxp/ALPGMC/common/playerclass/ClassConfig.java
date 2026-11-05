@@ -84,8 +84,8 @@ public class ClassConfig {
             .comment("Damage taken reduction (0.3 = -30%)")
             .defineInRange("damageReduction", 0.3D, 0.0D, 1.0D);
     public static final ForgeConfigSpec.DoubleValue TANK_ANVIL_REPAIR_DISCOUNT = BUILDER
-            .comment("Repair cost discount at the enhancement anvil (0.5 = -50%). The anvil is not built yet")
-            .defineInRange("anvilRepairDiscount", 0.5D, 0.0D, 1.0D);
+            .comment("Repair gold saved at the enhancement anvil (0.5 = half the gold)")
+            .defineInRange("anvilRepairDiscount", 0.5D, 0.0D, 0.9D);
 
     static {
         BUILDER.pop().push("level");
@@ -166,6 +166,69 @@ public class ClassConfig {
     public static final ForgeConfigSpec.DoubleValue HUNTER_DROP_CHANCE_UPGRADED = BUILDER
             .comment("The same chance after production tier 1")
             .defineInRange("hunterDropChanceUpgraded", 0.5D, 0.0D, 1.0D);
+
+    public static final ForgeConfigSpec.BooleanValue ALLY_ALL_PLAYERS = BUILDER
+            .comment("Treat all players and their pets as allies. Allies take no damage from each other, projectiles pass through them, and potions follow the ally rules. If false, only a player and their own pets are allied")
+            .define("allyAllPlayers", true);
+
+    static {
+        BUILDER.pop().push("enhancement");
+    }
+
+    public static final ForgeConfigSpec.DoubleValue DEATH_DURABILITY_LOSS_MIN = BUILDER
+            .comment("Lowest share of remaining durability lost on death (0.1 = 10%)")
+            .defineInRange("deathDurabilityLossMin", 0.1D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue DEATH_DURABILITY_LOSS_MAX = BUILDER
+            .comment("Highest share of remaining durability lost on death (0.3 = 30%)")
+            .defineInRange("deathDurabilityLossMax", 0.3D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.IntValue GOLD_FROM_VANILLA_ENEMY = BUILDER
+            .comment("Gold gained for killing a vanilla hostile mob, by a player or their pet")
+            .defineInRange("goldFromVanillaEnemy", 1, 0, 1000000);
+    public static final ForgeConfigSpec.IntValue GOLD_FROM_MOD_MONSTER = BUILDER
+            .comment("Gold gained for killing a level 1 mod monster")
+            .defineInRange("goldFromModMonster", 3, 0, 1000000);
+    public static final ForgeConfigSpec.DoubleValue GOLD_PER_MONSTER_LEVEL = BUILDER
+            .comment("Extra gold per mod monster level above 1, rounded down")
+            .defineInRange("goldPerMonsterLevel", 0.5D, 0.0D, 1000000.0D);
+    public static final ForgeConfigSpec.IntValue REPAIR_FULL_COST = BUILDER
+            .comment("Gold to repair gear from zero durability to full")
+            .defineInRange("repairFullCost", 20, 1, 1000000);
+    public static final ForgeConfigSpec.IntValue ENHANCE_COST_BASE = BUILDER
+            .comment("Gold needed to reach +1")
+            .defineInRange("costBase", 10, 1, 1000000);
+    public static final ForgeConfigSpec.IntValue ENHANCE_COST_PER_LEVEL = BUILDER
+            .comment("Extra gold needed for each level after +1")
+            .defineInRange("costPerLevel", 5, 0, 100000);
+    public static final ForgeConfigSpec.IntValue ENHANCE_SCROLL_COST = BUILDER
+            .comment("Enhancement Scrolls used per attempt, lost even if the attempt fails")
+            .defineInRange("scrollCost", 1, 0, 64);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_SUCCESS_BASE = BUILDER
+            .comment("Success chance when reaching +1 (1.0 = 100%)")
+            .defineInRange("successBase", 1.0D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_SUCCESS_LOSS_PER_LEVEL = BUILDER
+            .comment("Success chance lost for each level after +1 (0.1 = -10%)")
+            .defineInRange("successLossPerLevel", 0.1D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_SUCCESS_MIN = BUILDER
+            .comment("Lowest possible success chance")
+            .defineInRange("successMin", 0.1D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_SUCCESS_SAFE_BONUS = BUILDER
+            .comment("Success chance added at production tier 2")
+            .defineInRange("successSafeBonus", 0.1D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_FAIL_DESTROY_CHANCE = BUILDER
+            .comment("Chance a failed enhancement destroys the gear before production tier 2 (1.0 = always)")
+            .defineInRange("failDestroyChance", 1.0D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_WEAPON_DAMAGE_PER_LEVEL = BUILDER
+            .comment("Attack damage per enhancement level on melee weapons and tools")
+            .defineInRange("weaponDamagePerLevel", 0.5D, 0.0D, 100.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_BOW_DAMAGE_PER_LEVEL = BUILDER
+            .comment("Bow and crossbow damage per enhancement level (0.03 = +3%)")
+            .defineInRange("bowDamagePerLevel", 0.03D, 0.0D, 10.0D);
+    public static final ForgeConfigSpec.DoubleValue ENHANCE_ARMOR_PER_LEVEL = BUILDER
+            .comment("Armor points per enhancement level on each armor piece")
+            .defineInRange("armorPerLevel", 0.25D, 0.0D, 100.0D);
+    public static final ForgeConfigSpec.IntValue DISASSEMBLE_YIELD_PER_TIER = BUILDER
+            .comment("Option Dust per tier step when disassembling (T5 = 1 step, T1 = 5 steps). The total for one item must fit in one stack")
+            .defineInRange("disassembleYieldPerTier", 1, 0, 4);
 
     static {
         BUILDER.pop().push("monster");

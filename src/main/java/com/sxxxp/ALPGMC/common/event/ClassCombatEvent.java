@@ -1,5 +1,6 @@
 package com.sxxxp.ALPGMC.common.event;
 
+import com.sxxxp.ALPGMC.api.gear.GearData;
 import com.sxxxp.ALPGMC.common.playerclass.ClassConfig;
 import com.sxxxp.ALPGMC.common.playerclass.ClassProgression;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerBranch;
@@ -17,6 +18,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityMountEvent;
@@ -39,6 +42,14 @@ public class ClassCombatEvent {
             // 원거리 스탯은 attribute가 없어서 화살 피해에 직접 곱합니다.
             if (event.getSource().getDirectEntity() instanceof AbstractArrow) {
                 amount *= (float) (1.0D + PlayerStat.RANGED.bonus(PlayerLevelData.getStat(attacker, PlayerStat.RANGED)));
+
+                // 활의 강화도 attribute가 없어서 맞았을 때 들고 있는 활의 수치를 곱합니다.
+                ItemStack bow = attacker.getMainHandItem().getItem() instanceof ProjectileWeaponItem
+                        ? attacker.getMainHandItem()
+                        : attacker.getOffhandItem();
+                if (bow.getItem() instanceof ProjectileWeaponItem) {
+                    amount *= (float) (1.0D + ClassConfig.ENHANCE_BOW_DAMAGE_PER_LEVEL.get() * GearData.getEnhancement(bow));
+                }
             }
             // 힐러가 입히는 모든 피해를 줄입니다. 소환수의 공격은 공격자가 소환수라서 여기에 걸리지 않습니다.
             if (PlayerClassData.get(attacker) == PlayerClass.HEALER) {

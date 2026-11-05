@@ -3,8 +3,10 @@ package com.sxxxp.ALPGMC;
 import com.mojang.logging.LogUtils;
 import com.sxxxp.ALPGMC.core.data.MobXpManager;
 import com.sxxxp.ALPGMC.common.playerclass.ClassConfig;
+import com.sxxxp.ALPGMC.core.init.BlockInit;
 import com.sxxxp.ALPGMC.core.init.EntityInit;
 import com.sxxxp.ALPGMC.core.init.ItemInit;
+import com.sxxxp.ALPGMC.core.init.MenuInit;
 import com.sxxxp.ALPGMC.core.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -73,7 +75,9 @@ public class ExampleMod
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::setup);
+        BlockInit.register(modEventBus);
         ItemInit.register(modEventBus);
+        MenuInit.register(modEventBus);
         EntityInit.register(modEventBus);
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
@@ -135,8 +139,13 @@ public class ExampleMod
             event.accept(ItemInit.REVENANT_LEGGINGS);
             event.accept(ItemInit.REVENANT_BOOTS);
         }
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ItemInit.REVENANT_ESSENCE);
+            event.accept(ItemInit.ENHANCEMENT_SCROLL);
+            event.accept(ItemInit.OPTION_DUST);
+        }
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+            event.accept(ItemInit.ENHANCEMENT_ANVIL);
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
             event.accept(ItemInit.CUSTOM_ZOMBIE_SPAWN_EGG);
     }

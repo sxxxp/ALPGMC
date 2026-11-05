@@ -119,7 +119,7 @@ public class PlayerLevelData {
         }
         PlayerBranch branch = ClassProgression.getBranch(player);
         PacketHandler.INSTANCE.sendTo(
-                new LevelSyncPacket(tag.getInt(LEVEL), tag.getInt(XP), xpToNext(tag.getInt(LEVEL)), tag.getInt(POINTS), stats, branch == null ? "" : branch.getId()),
+                new LevelSyncPacket(tag.getInt(LEVEL), tag.getInt(XP), xpToNext(tag.getInt(LEVEL)), tag.getInt(POINTS), stats, branch == null ? "" : branch.getId(), PlayerGold.get(player)),
                 player.connection.connection,
                 NetworkDirection.PLAY_TO_CLIENT
         );

@@ -19,6 +19,19 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "alpgmc:enhancement_scroll"
+        }
+      ],
+      "conditions": [
+        { "condition": "minecraft:killed_by_player" },
+        { "condition": "minecraft:random_chance_with_looting", "chance": 0.15, "looting_multiplier": 0.02 }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
           "name": "minecraft:rotten_flesh",
           "functions": [
             { "function": "minecraft:set_count", "count": { "type": "minecraft:uniform", "min": 0, "max": 2 } },

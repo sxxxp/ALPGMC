@@ -3,6 +3,7 @@ package com.sxxxp.ALPGMC.common.event;
 import com.sxxxp.ALPGMC.common.playerclass.ClassResultSlot;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerClass;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerClassData;
+import com.sxxxp.ALPGMC.common.workstation.EnhancementAnvilBlock;
 import com.sxxxp.ALPGMC.core.init.items.RobeMaterial;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -80,14 +81,14 @@ public class ClassRestrictionEvent {
         }
     }
 
-    // 바닐라 인챈트대, 양조대, 모루는 모드 작업대로 대체되어 누구도 쓸 수 없습니다. 마법사는 대장장이 작업대도 열 수 없습니다.
+    // 바닐라 인챈트대, 양조대, 모루는 모드 작업대로 대체되어 누구도 쓸 수 없습니다. 마법사는 강화 모루와 대장장이 작업대도 열 수 없습니다.
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             Block block = event.getLevel().getBlockState(event.getPos()).getBlock();
             boolean vanillaReplaced = block instanceof EnchantmentTableBlock || block instanceof BrewingStandBlock || block instanceof AnvilBlock;
             boolean forbidden = vanillaReplaced
-                    || (PlayerClassData.get(player) == PlayerClass.MAGE && block instanceof SmithingTableBlock);
+                    || (PlayerClassData.get(player) == PlayerClass.MAGE && (block instanceof EnhancementAnvilBlock || block instanceof SmithingTableBlock));
             if (forbidden) {
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.FAIL);

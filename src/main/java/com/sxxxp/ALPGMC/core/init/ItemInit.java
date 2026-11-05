@@ -7,6 +7,7 @@ import com.sxxxp.ALPGMC.core.init.items.RevenantArmorMaterial;
 import com.sxxxp.ALPGMC.core.init.items.RevenantTier;
 import com.sxxxp.ALPGMC.core.init.items.RobeMaterial;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -49,6 +50,17 @@ public class ItemInit {
     public static final RegistryObject<Item> REVENANT_BOOTS = revenantArmor("revenant_boots", ArmorItem.Type.BOOTS);
     public static final RegistryObject<Item> REVENANT_SWORD =
             ITEMS.register("revenant_sword", () -> new SwordItem(RevenantTier.INSTANCE, 3, -2.4F, new Item.Properties()));
+
+    // 정예 좀비가 떨어뜨리고, 장비를 강화할 때 골드와 함께 소모합니다.
+    public static final RegistryObject<Item> ENHANCEMENT_SCROLL =
+            ITEMS.register("enhancement_scroll", () -> new Item(new Item.Properties()));
+
+    // 장비를 분해하면 옵션 티어에 따라 돌려받는 재료
+    public static final RegistryObject<Item> OPTION_DUST =
+            ITEMS.register("option_dust", () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> ENHANCEMENT_ANVIL =
+            ITEMS.register("enhancement_anvil", () -> new BlockItem(BlockInit.ENHANCEMENT_ANVIL.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> CUSTOM_ZOMBIE_SPAWN_EGG =
             ITEMS.register("custom_zombie_spawn_egg", () -> new ForgeSpawnEggItem(EntityInit.CUSTOM_ZOMBIE, 0x2E2440, 0xB03A48, new Item.Properties()));

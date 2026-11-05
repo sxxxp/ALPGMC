@@ -5,7 +5,10 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "alpgmc.refmap.json",
   "mixins": [
-    "FoodDataMixin"
+    "AreaEffectCloudMixin",
+    "FoodDataMixin",
+    "ItemStackMixin",
+    "ThrownPotionMixin"
   ],
   "client": [],
   "injectors": {
