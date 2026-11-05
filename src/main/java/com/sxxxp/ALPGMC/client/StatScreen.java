@@ -49,6 +49,9 @@ public class StatScreen extends Screen {
             y += ROW_HEIGHT;
         }
 
+        this.addRenderableWidget(Button.builder(Component.translatable("screen.alpgmc.branch.title"), button -> this.minecraft.setScreen(new BranchScreen()))
+                .bounds(this.width / 2 - 122, this.height - 52, 244, 20)
+                .build());
         this.resetButton = this.addRenderableWidget(Button.builder(Component.empty(), button -> pressReset())
                 .bounds(this.width / 2 - 122, this.height - 28, 120, 20)
                 .build());

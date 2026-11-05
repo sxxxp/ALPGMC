@@ -53,6 +53,12 @@ public class PacketHandler {
                 .consumerMainThread(StatActionPacket::handle)
                 .add();
 
+        INSTANCE.messageBuilder(BranchSelectPacket.class, nextId())
+                .encoder(BranchSelectPacket::encode)
+                .decoder(BranchSelectPacket::decode)
+                .consumerMainThread(BranchSelectPacket::handle)
+                .add();
+
         System.out.println("[ALPGMC] Successfully registered XpToastPacket to network channel.");
     }
 }

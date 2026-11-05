@@ -44,7 +44,10 @@ public class ClassResultSlot extends Slot {
 
         // 결과물이 새로 만들어질 때마다 한 번만 개수를 늘립니다.
         if (playerClass == PlayerClass.WARRIOR && isArrow(result) && result != this.multiplied) {
-            int count = result.getCount() * ClassConfig.WARRIOR_ARROW_CRAFT_MULTIPLIER.get();
+            int multiplier = ClassProgression.hasProductionTier(this.player, PlayerClass.WARRIOR, 2)
+                    ? ClassConfig.WARRIOR_ARROW_CRAFT_MULTIPLIER_UPGRADED.get()
+                    : ClassConfig.WARRIOR_ARROW_CRAFT_MULTIPLIER.get();
+            int count = result.getCount() * multiplier;
             result.setCount(Math.min(count, result.getMaxStackSize()));
             this.multiplied = result;
         }

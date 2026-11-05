@@ -1,5 +1,7 @@
 package com.sxxxp.ALPGMC.common.event;
 
+import com.sxxxp.ALPGMC.common.entity.LeveledMob;
+import com.sxxxp.ALPGMC.common.playerclass.ClassConfig;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerLevelData;
 import com.sxxxp.ALPGMC.core.data.MobXpManager;
 import com.sxxxp.ALPGMC.core.network.XpToastPacket;
@@ -44,6 +46,11 @@ public class ExperienceEvent {
 
             // 2. 앞서 만든 MobXpManager(JSON)에게 이 몬스터의 경험치 보상을 물어봅니다.
             int earnedXp = MobXpManager.INSTANCE.getMobXp(mobKey);
+
+            // 레벨이 높은 모드 몬스터일수록 경험치를 더 줍니다.
+            if (targetMob instanceof LeveledMob leveled) {
+                earnedXp = (int) Math.round(earnedXp * (1.0D + ClassConfig.MONSTER_XP_PER_LEVEL.get() * (leveled.getMobLevel() - 1)));
+            }
 
             // 3. 화면 UI에 띄울 몬스터의 이름(예: "정예 언데드 전사")을 추출합니다.
             String mobName = targetMob.getDisplayName().getString();

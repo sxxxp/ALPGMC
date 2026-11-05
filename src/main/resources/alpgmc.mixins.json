@@ -5,12 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "alpgmc.refmap.json",
   "mixins": [
-    "AnvilMenuMixin",
     "FoodDataMixin"
   ],
-  "client": [
-    "AnvilScreenMixin"
-  ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }

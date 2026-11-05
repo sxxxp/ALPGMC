@@ -56,11 +56,23 @@ Class stats are permanent attribute modifiers in `ClassAttributes`, reapplied on
 
 Restrictions live in `common/event/ClassRestrictionEvent`. Crafting limits and the warrior's arrow multiplier use `ClassResultSlot`, which wraps slot 0 of crafting menus on the server. `ClassArrowItem` is deliberately left out of the `minecraft:arrows` tag so vanilla bows can't fire it, which is why `ClassResultSlot` checks for it separately.
 
-Prefer Forge events. Mixins in `mixin/` (config: `alpgmc.mixins.json`) are only for what events can't reach: food-only healing in `FoodDataMixin` and the anvil cost limit in `AnvilMenuMixin` and `AnvilScreenMixin`. `PlayerClassData.get` works on both sides, but the client only knows the local player's class, so don't call it for other players on the client.
+Prefer Forge events. Mixins in `mixin/` (config: `alpgmc.mixins.json`) are only for what events can't reach: food-only healing in `FoodDataMixin`. `PlayerClassData.get` works on both sides, but the client only knows the local player's class, so don't call it for other players on the client.
 
 ### Levels and stats
 
 `PlayerLevelData` stores a mod-only level, XP, and stat points in persistent NBT, separate from vanilla XP. `ExperienceEvent` feeds it from the XP table, counting kills by tamed pets as the owner's. `PlayerStat` defines the stats; `ClassAttributes` applies them, except ranged damage, which `ClassCombatEvent` multiplies directly. The stat screen (`client/StatScreen`, default key K) sends `StatActionPacket`, and the server re-validates every request. Operators can use `/class addxp <player> <amount>`.
+
+### Branches and production
+
+`ClassProgression` answers what a player has unlocked, and is server-only because it reads the level. Tier 0 is available from level 1 and tiers 1-4 use the levels in the `progression` config. Each class has two combat branches (`PlayerBranch`), chosen at tier 1 in `client/BranchScreen`; changing later costs vanilla XP levels. All branch and production text is shown in that screen, including abilities that aren't built, so `BranchAbilityEvent` and the other handlers hold the real list of working abilities.
+
+Vanilla enchanting tables, brewing stands, and anvils are blocked for everyone in `ClassRestrictionEvent`, because the mod's workstations replace them.
+
+`api/` separates gear options and potions from classes. Workstations should check `ProductionAction.canUse` rather than reading the class, and new content goes in `GearOptionRegistry` or `AlchemyEffectRegistry`. `GearData` reads and writes gear NBT. None of the workstations exist yet.
+
+### Leveled monsters
+
+`CustomZombieEntity` implements `LeveledMob`. In `finalizeSpawn` it copies the nearest player's level and adds permanent health and damage modifiers, so a monster keeps its level after that player leaves. Natural spawning needs both a placement in `EntityAttributeEvent` and a JSON in `data/alpgmc/forge/biome_modifier/`. Drops come from `data/alpgmc/loot_tables/entities/`.
 
 ### Adding things
 
@@ -72,10 +84,6 @@ Prefer Forge events. Mixins in `mixin/` (config: `alpgmc.mixins.json`) are only 
 
 - `processResources` expands `${...}` properties from `gradle.properties` into `META-INF/mods.toml` and `pack.mcmeta`, so a literal `${` in those files breaks the build.
 - `build.gradle` declares no mod dependencies, only Forge itself. The README's dependency list (Apotheosis, Dimensional Dungeons, Project MMO, KubeJS, FTB Quests) is not in the dev environment.
-
-## Known issues
-
-- **Missing texture:** `CustomZombieRenderer` points at `assets/alpgmc/textures/entity/custom_zombie.png`, which doesn't exist yet.
 
 ## Conventions
 

@@ -1,5 +1,6 @@
 package com.sxxxp.ALPGMC.client;
 
+import com.sxxxp.ALPGMC.common.playerclass.PlayerBranch;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerStat;
 
 public class ClientLevelData {
@@ -8,13 +9,15 @@ public class ClientLevelData {
     private static int xpToNext = 0;
     private static int points = 0;
     private static int[] stats = new int[PlayerStat.values().length];
+    private static PlayerBranch branch = null;
 
-    public static void set(int newLevel, int newXp, int newXpToNext, int newPoints, int[] newStats) {
+    public static void set(int newLevel, int newXp, int newXpToNext, int newPoints, int[] newStats, String newBranch) {
         level = newLevel;
         xp = newXp;
         xpToNext = newXpToNext;
         points = newPoints;
         stats = newStats;
+        branch = PlayerBranch.fromId(newBranch);
     }
 
     public static int getLevel() {
@@ -35,5 +38,9 @@ public class ClientLevelData {
 
     public static int getStat(PlayerStat stat) {
         return stats[stat.ordinal()];
+    }
+
+    public static PlayerBranch getBranch() {
+        return branch;
     }
 }

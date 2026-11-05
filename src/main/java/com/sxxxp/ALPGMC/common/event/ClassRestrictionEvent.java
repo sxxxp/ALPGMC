@@ -18,8 +18,10 @@ import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BrewingStandBlock;
+import net.minecraft.world.level.block.EnchantmentTableBlock;
 import net.minecraft.world.level.block.SmithingTableBlock;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
@@ -78,20 +80,28 @@ public class ClassRestrictionEvent {
         }
     }
 
-    // 마법사는 모루와 대장장이 작업대를, 전사는 양조대를 열 수 없습니다.
+    // 바닐라 인챈트대, 양조대, 모루는 모드 작업대로 대체되어 누구도 쓸 수 없습니다. 마법사는 대장장이 작업대도 열 수 없습니다.
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            PlayerClass playerClass = PlayerClassData.get(player);
             Block block = event.getLevel().getBlockState(event.getPos()).getBlock();
-            boolean forbidden = (playerClass == PlayerClass.MAGE && (block instanceof AnvilBlock || block instanceof SmithingTableBlock))
-                    || (playerClass == PlayerClass.WARRIOR && block instanceof BrewingStandBlock);
+            boolean vanillaReplaced = block instanceof EnchantmentTableBlock || block instanceof BrewingStandBlock || block instanceof AnvilBlock;
+            boolean forbidden = vanillaReplaced
+                    || (PlayerClassData.get(player) == PlayerClass.MAGE && block instanceof SmithingTableBlock);
             if (forbidden) {
                 event.setCanceled(true);
                 event.setCancellationResult(InteractionResult.FAIL);
-                deny(player);
+                player.displayClientMessage(Component.translatable(vanillaReplaced
+                        ? "message.alpgmc.vanilla_replaced"
+                        : "message.alpgmc.class_restricted"), true);
             }
         }
+    }
+
+    // 호퍼로 재료를 넣으면 창을 열지 않고도 양조되므로 양조 자체도 막습니다.
+    @SubscribeEvent
+    public static void onPotionBrew(PotionBrewEvent.Pre event) {
+        event.setCanceled(true);
     }
 
     // 마법사의 갑옷 칸에 로브와 겉날개가 아닌 것이 있으면 벗겨서 인벤토리로 돌려줍니다. 장착 경로가 여러 개라 매 틱 확인합니다.

@@ -45,6 +45,7 @@ public class PlayerLevelData {
     public static void addXp(ServerPlayer player, int amount) {
         CompoundTag tag = data(player);
         int level = tag.getInt(LEVEL);
+        int previousLevel = level;
         int xp = tag.getInt(XP) + amount;
         int gained = 0;
 
@@ -65,6 +66,12 @@ public class PlayerLevelData {
             tag.putInt(POINTS, tag.getInt(POINTS) + gained * ClassConfig.LEVEL_STAT_POINTS.get());
             player.displayClientMessage(Component.translatable("message.alpgmc.level_up", level), true);
             player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 1.0F, 1.0F);
+
+            // 갈래를 고를 수 있게 된 순간 한 번만 채팅으로 알려줍니다.
+            int unlockLevel = ClassProgression.tierLevel(1);
+            if (previousLevel < unlockLevel && level >= unlockLevel && ClassProgression.getBranch(player) == null) {
+                player.sendSystemMessage(Component.translatable("message.alpgmc.branch_unlocked"));
+            }
         }
         sync(player);
     }
@@ -110,8 +117,9 @@ public class PlayerLevelData {
         for (PlayerStat stat : PlayerStat.values()) {
             stats[stat.ordinal()] = getStat(player, stat);
         }
+        PlayerBranch branch = ClassProgression.getBranch(player);
         PacketHandler.INSTANCE.sendTo(
-                new LevelSyncPacket(tag.getInt(LEVEL), tag.getInt(XP), xpToNext(tag.getInt(LEVEL)), tag.getInt(POINTS), stats),
+                new LevelSyncPacket(tag.getInt(LEVEL), tag.getInt(XP), xpToNext(tag.getInt(LEVEL)), tag.getInt(POINTS), stats, branch == null ? "" : branch.getId()),
                 player.connection.connection,
                 NetworkDirection.PLAY_TO_CLIENT
         );

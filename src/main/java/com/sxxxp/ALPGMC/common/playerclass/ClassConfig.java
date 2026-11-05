@@ -84,7 +84,7 @@ public class ClassConfig {
             .comment("Damage taken reduction (0.3 = -30%)")
             .defineInRange("damageReduction", 0.3D, 0.0D, 1.0D);
     public static final ForgeConfigSpec.DoubleValue TANK_ANVIL_REPAIR_DISCOUNT = BUILDER
-            .comment("Anvil repair cost discount (0.5 = -50%)")
+            .comment("Repair cost discount at the enhancement anvil (0.5 = -50%). The anvil is not built yet")
             .defineInRange("anvilRepairDiscount", 0.5D, 0.0D, 1.0D);
 
     static {
@@ -93,7 +93,7 @@ public class ClassConfig {
 
     public static final ForgeConfigSpec.IntValue LEVEL_MAX = BUILDER
             .comment("Highest player level")
-            .defineInRange("maxLevel", 100, 1, 10000);
+            .defineInRange("maxLevel", 75, 1, 10000);
     public static final ForgeConfigSpec.IntValue LEVEL_XP_BASE = BUILDER
             .comment("XP needed to go from level 1 to 2")
             .defineInRange("xpBase", 100, 1, 1000000);
@@ -127,6 +127,59 @@ public class ClassConfig {
     public static final ForgeConfigSpec.DoubleValue STAT_MANA_PER_POINT = BUILDER
             .comment("Max mana per point (mage only)")
             .defineInRange("manaPerPoint", 5.0D, 0.0D, 1000.0D);
+
+    static {
+        BUILDER.pop().push("progression");
+    }
+
+    public static final ForgeConfigSpec.IntValue TIER_1_LEVEL = BUILDER
+            .comment("Level that unlocks choosing a combat branch and the first branch and production abilities")
+            .defineInRange("tier1Level", 15, 1, 10000);
+    public static final ForgeConfigSpec.IntValue TIER_2_LEVEL = BUILDER
+            .defineInRange("tier2Level", 25, 1, 10000);
+    public static final ForgeConfigSpec.IntValue TIER_3_LEVEL = BUILDER
+            .defineInRange("tier3Level", 35, 1, 10000);
+    public static final ForgeConfigSpec.IntValue TIER_4_LEVEL = BUILDER
+            .comment("Level that unlocks the ultimate abilities")
+            .defineInRange("tier4Level", 45, 1, 10000);
+    public static final ForgeConfigSpec.IntValue BRANCH_CHANGE_COST = BUILDER
+            .comment("Vanilla XP levels paid to change combat branch. The first choice is free")
+            .defineInRange("branchChangeCost", 50, 0, 10000);
+    public static final ForgeConfigSpec.DoubleValue BERSERKER_MAX_DAMAGE_BONUS = BUILDER
+            .comment("Berserker melee damage bonus as health approaches zero (0.5 = up to +50%)")
+            .defineInRange("berserkerMaxDamageBonus", 0.5D, 0.0D, 10.0D);
+    public static final ForgeConfigSpec.DoubleValue BERSERKER_KILL_HEAL = BUILDER
+            .comment("Health the Berserker regains per kill (2 = 1 heart)")
+            .defineInRange("berserkerKillHeal", 2.0D, 0.0D, 100.0D);
+    public static final ForgeConfigSpec.DoubleValue SNIPER_FULL_CHARGE_BONUS = BUILDER
+            .comment("Sniper damage bonus for fully drawn shots (0.5 = +50%)")
+            .defineInRange("sniperFullChargeBonus", 0.5D, 0.0D, 10.0D);
+    public static final ForgeConfigSpec.DoubleValue GUARDIAN_DAMAGE_REDUCTION = BUILDER
+            .comment("Guardian total damage taken reduction, replacing the tank's base value (0.45 = -45%)")
+            .defineInRange("guardianDamageReduction", 0.45D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.IntValue WARRIOR_ARROW_CRAFT_MULTIPLIER_UPGRADED = BUILDER
+            .comment("Warrior arrow output multiplier after production tier 2")
+            .defineInRange("warriorArrowCraftMultiplierUpgraded", 3, 1, 16);
+    public static final ForgeConfigSpec.DoubleValue HUNTER_DROP_CHANCE = BUILDER
+            .comment("Archer chance for each mob drop stack to drop twice (0.2 = +20%)")
+            .defineInRange("hunterDropChance", 0.2D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue HUNTER_DROP_CHANCE_UPGRADED = BUILDER
+            .comment("The same chance after production tier 1")
+            .defineInRange("hunterDropChanceUpgraded", 0.5D, 0.0D, 1.0D);
+
+    static {
+        BUILDER.pop().push("monster");
+    }
+
+    public static final ForgeConfigSpec.DoubleValue MONSTER_HEALTH_PER_LEVEL = BUILDER
+            .comment("Mod monster health per level above 1 (0.1 = +10%). Applies when the monster spawns")
+            .defineInRange("healthPerLevel", 0.1D, 0.0D, 10.0D);
+    public static final ForgeConfigSpec.DoubleValue MONSTER_DAMAGE_PER_LEVEL = BUILDER
+            .comment("Mod monster damage per level above 1 (0.05 = +5%). Applies when the monster spawns")
+            .defineInRange("damagePerLevel", 0.05D, 0.0D, 10.0D);
+    public static final ForgeConfigSpec.DoubleValue MONSTER_XP_PER_LEVEL = BUILDER
+            .comment("Mod monster XP reward per level above 1 (0.1 = +10%)")
+            .defineInRange("xpPerLevel", 0.1D, 0.0D, 10.0D);
 
     static {
         BUILDER.pop();

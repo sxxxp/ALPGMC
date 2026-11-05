@@ -129,7 +129,16 @@ public class ExampleMod
             event.accept(ItemInit.FLINT_ARROW);
             event.accept(ItemInit.IRON_ARROW);
             event.accept(ItemInit.DIAMOND_ARROW);
+            event.accept(ItemInit.REVENANT_SWORD);
+            event.accept(ItemInit.REVENANT_HELMET);
+            event.accept(ItemInit.REVENANT_CHESTPLATE);
+            event.accept(ItemInit.REVENANT_LEGGINGS);
+            event.accept(ItemInit.REVENANT_BOOTS);
         }
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+            event.accept(ItemInit.REVENANT_ESSENCE);
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
+            event.accept(ItemInit.CUSTOM_ZOMBIE_SPAWN_EGG);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

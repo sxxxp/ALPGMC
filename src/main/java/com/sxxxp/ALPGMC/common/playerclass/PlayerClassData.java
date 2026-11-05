@@ -25,6 +25,7 @@ public class PlayerClassData {
     // 직업을 저장하고 해당 플레이어의 클라이언트에 바로 알려줍니다.
     public static void set(ServerPlayer player, PlayerClass playerClass) {
         player.getPersistentData().putString(KEY, playerClass.getId());
+        ClassProgression.clearIfMismatch(player, playerClass);
         ClassAttributes.apply(player);
         if (playerClass == PlayerClass.ARCHER) {
             giveArcherStarter(player);
@@ -55,5 +56,6 @@ public class PlayerClassData {
         clone.getPersistentData().putString(KEY, original.getPersistentData().getString(KEY));
         clone.getPersistentData().putBoolean(STARTER_KEY, original.getPersistentData().getBoolean(STARTER_KEY));
         PlayerLevelData.copy(original, clone);
+        ClassProgression.copy(original, clone);
     }
 }

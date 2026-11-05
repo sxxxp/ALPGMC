@@ -1,6 +1,8 @@
 package com.sxxxp.ALPGMC.common.event;
 
 import com.sxxxp.ALPGMC.common.playerclass.ClassConfig;
+import com.sxxxp.ALPGMC.common.playerclass.ClassProgression;
+import com.sxxxp.ALPGMC.common.playerclass.PlayerBranch;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerClass;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerClassData;
 import com.sxxxp.ALPGMC.common.playerclass.PlayerLevelData;
@@ -44,7 +46,11 @@ public class ClassCombatEvent {
             }
         }
         if (event.getEntity() instanceof ServerPlayer target && PlayerClassData.get(target) == PlayerClass.TANK) {
-            amount *= (float) (1.0D - ClassConfig.TANK_DAMAGE_REDUCTION.get());
+            // 수호자는 기본 감소 대신 더 높은 감소를 받습니다.
+            double reduction = ClassProgression.hasBranchTier(target, PlayerBranch.GUARDIAN, 1)
+                    ? ClassConfig.GUARDIAN_DAMAGE_REDUCTION.get()
+                    : ClassConfig.TANK_DAMAGE_REDUCTION.get();
+            amount *= (float) (1.0D - reduction);
         }
 
         event.setAmount(amount);

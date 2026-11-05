@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EIE",
+    "E E"
+  ],
+  "key": {
+    "E": { "item": "alpgmc:revenant_essence" },
+    "I": { "item": "minecraft:iron_ingot" }
+  },
+  "result": { "item": "alpgmc:revenant_helmet" }
+}
